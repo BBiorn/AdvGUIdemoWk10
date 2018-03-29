@@ -91,7 +91,7 @@ public class MainFrame extends JFrame
 		cartPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(cartPane);
 		cartPane.setLayout(null);
-		
+				
 		JScrollPane cartScrollPane = new JScrollPane();
 		cartScrollPane.setBounds(615, 11, 169, 495);
 		cartPane.add(cartScrollPane);
@@ -102,47 +102,75 @@ public class MainFrame extends JFrame
 		JLabel inCartLbl = new JLabel("Items in cart");
 		cartScrollPane.setColumnHeaderView(inCartLbl);
 		
-		JButton btnNewButton = new JButton("All");
-		btnNewButton.setBounds(48, 124, 169, 174);
-		cartPane.add(btnNewButton);
+		JPanel searchPnl = new JPanel();
+		searchPnl.setBounds(10, 11, 595, 549);
+		cartPane.add(searchPnl);
+		searchPnl.setLayout(null);
+		
+
+		ActionListener btnListener = new ActionListener()//Action Listener for the buttons
+		{
+		   public void actionPerformed(ActionEvent e)
+		   {
+				cartPane.remove(searchPnl);	 
+				cartPane.repaint();
+				
+				
+		   }
+		};
+		
+		JButton btnAll = new JButton("All");
+		btnAll.setBounds(34, 123, 169, 174);
+		btnAll.addActionListener(btnListener);
+		searchPnl.add(btnAll);
 		
 		JButton btnDairy = new JButton("Dairy");
-		btnDairy.setBounds(48, 331, 169, 175);
-		cartPane.add(btnDairy);
+		btnDairy.setBounds(34, 300, 169, 175);
+		btnDairy.addActionListener(btnListener);
+		searchPnl.add(btnDairy);
 		
 		JButton btnProduce = new JButton("Produce");
-		btnProduce.setBounds(227, 124, 169, 174);
-		cartPane.add(btnProduce);
+		btnProduce.setBounds(211, 123, 169, 174);
+		btnProduce.addActionListener(btnListener);
+		searchPnl.add(btnProduce);
 		
 		JButton btnFrozenGoods = new JButton("Frozen Goods");
-		btnFrozenGoods.setBounds(227, 331, 169, 175);
-		cartPane.add(btnFrozenGoods);
+		btnFrozenGoods.setBounds(211, 300, 169, 175);
+		btnFrozenGoods.addActionListener(btnListener);
+		searchPnl.add(btnFrozenGoods);
 		
 		JButton btnMeat = new JButton("Meat");
-		btnMeat.setBounds(406, 124, 169, 174);
-		cartPane.add(btnMeat);
+		btnMeat.setBounds(389, 123, 169, 174);
+		btnMeat.addActionListener(btnListener);
+		searchPnl.add(btnMeat);
 		
 		JButton btnBakedGoods = new JButton("Baked Goods");
-		btnBakedGoods.setBounds(406, 331, 169, 175);
-		cartPane.add(btnBakedGoods);
+		btnBakedGoods.setBounds(389, 301, 169, 175);
+		btnBakedGoods.addActionListener(btnListener);
+		searchPnl.add(btnBakedGoods);
 		
 		txtSearch = new JTextField();
+		txtSearch.setBounds(10, 31, 261, 31);
+		searchPnl.add(txtSearch);
 		txtSearch.setText("Search");
-		txtSearch.setBounds(48, 39, 261, 31);
-		cartPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
-		JButton removeItemBtn = new JButton("Remove Selected Item");
-		removeItemBtn.setBounds(615, 513, 169, 23);
-		cartPane.add(removeItemBtn);
+		JButton btnSearch = new JButton("Search for items");
+		btnSearch.setBounds(274, 31, 31, 31);
+		btnSearch.addActionListener(btnListener);
+		searchPnl.add(btnSearch);
 		
 		JButton btnCheckout = new JButton("Checkout");
 		btnCheckout.setBounds(615, 537, 169, 23);
+		btnCheckout.addActionListener(btnListener);
 		cartPane.add(btnCheckout);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(319, 39, 31, 31);
-		cartPane.add(btnNewButton_1);
+		JButton btnRemoveItem = new JButton("Remove Selected Item");
+		btnRemoveItem.setBounds(615, 510, 169, 23);
+		btnRemoveItem.addActionListener(btnListener);
+		cartPane.add(btnRemoveItem);
+		
+		
 	}
 	
 	public void createEvents()
