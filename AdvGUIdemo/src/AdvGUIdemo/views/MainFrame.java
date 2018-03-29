@@ -44,8 +44,11 @@ public class MainFrame extends JFrame
 	private JPanel cartPane;
 	private JTextField txtSearch;
 
+	//Parallel Vectors for whats in the cart
 	static Vector<FoodItem> cartList = new Vector<FoodItem>();//Stores the FoodItem 's in the cart
 	static DefaultListModel foodList = new DefaultListModel();//Stores the names and cost of items in the cart
+	
+	static double total = 0.0;//stores the cart total
 	
 	//Parallel Vectors used to store all available food item names, types, and costs.
 	static Vector<String> foodItemNames = new Vector<String>();
@@ -114,12 +117,24 @@ public class MainFrame extends JFrame
 		DefaultListModel resultItemList = new DefaultListModel();
 		JList resultsJList = new JList(resultItemList);
 		
+		JPanel thanksPnl = new JPanel();
+		thanksPnl.setBounds(10, 11, 595, 549);
+		//cartPane.add(thanksPnl);
+		thanksPnl.setLayout(null);
+		
+		JLabel lblThankYou = new JLabel("THANK YOU FOR YOUR PURCHASE!");
+		lblThankYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblThankYou.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblThankYou.setBounds(147, 235, 303, 77);
+		thanksPnl.add(lblThankYou);
+		
 		JPanel searchPnl = new JPanel();
 		searchPnl.setBounds(10, 11, 595, 549);
 		cartPane.add(searchPnl);
 		searchPnl.setLayout(null);
 		
 		JPanel resultsPanel = new JPanel();//declaring before the btnListener
+		JButton btnCheckout = new JButton("Checkout");
 		
 		ActionListener btnListener = new ActionListener()//Action Listener for the buttons
 		{
@@ -193,6 +208,35 @@ public class MainFrame extends JFrame
 					}
 				}
 				
+				else if(e.getActionCommand().equals("Search for items"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					System.out.println(txtSearch.getText());
+					for(int i = 0; i < foodItemNames.size(); i++)//Finds all items starting with what the user entered in the search box
+					{
+						if(foodItemNames.get(i).toLowerCase().startsWith(txtSearch.getText().toLowerCase()))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
+				else if(e.getActionCommand().equals("Remove Selected Item"))
+				{
+					String[] temp;//used to store segments from the selected value
+					String selectedValue = cartJList.getSelectedValue().toString();
+					temp = selectedValue.split("  ");
+					for(int i = 0; i < cartList.size(); i++)
+					{
+						if(cartList.get(i).getName().equals(temp[1]))
+						{
+						   total -= cartList.get(i).getCost();
+						   cartList.remove(i);//these vectors are parallel allowing to remove the same index
+						   foodList.remove(i);//these vectors are parallel allowing to remove the same index
+						   btnCheckout.setText(String.format("%s%.2f", "Checkout $", total));//Updates the checkout btn to show the current total
+						}
+					}
+				}
+				
 				else if(e.getActionCommand().equals("Add"))
 				{
 					int foodItemIndex;//stores the index of the food element to be able to pull data from parallel vectors
@@ -206,9 +250,11 @@ public class MainFrame extends JFrame
 					       foodItemIndex = i;
 					       cartList.addElement(new FoodItem(foodItemNames.get(i), foodItemTypes.get(i), foodItemCosts.get(i)));
 					       foodList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "  " + foodItemNames.get(i)));
+					       total += foodItemCosts.get(i);
+					       btnCheckout.setText(String.format("%s%.2f", "Checkout $", total));//Updates the checkout btn to show the current total
 					       i = foodItemNames.size();
 						}
-					}
+					}									
 				}
 				
 				else if(e.getActionCommand().equals("Back"))//sends user back to the search screen
@@ -219,16 +265,11 @@ public class MainFrame extends JFrame
 					cartPane.repaint();					
 				}
 				
-				else if(e.getActionCommand().equals("Search for items"))
+				else// for when the checkout button is clicked
 				{
-					cartPane.add(resultsPanel);
+					cartPane.remove(resultsPanel);
+					cartPane.add(thanksPnl);
 					cartPane.repaint();
-					System.out.println(txtSearch.getText());
-					for(int i = 0; i < foodItemNames.size(); i++)//Finds all items starting with what the user entered in the search box
-					{
-						if(foodItemNames.get(i).toLowerCase().startsWith(txtSearch.getText().toLowerCase()))
-						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
-					}
 				}
 		   }
 		};
@@ -264,17 +305,17 @@ public class MainFrame extends JFrame
 		searchPnl.add(btnBakedGoods);
 		
 		txtSearch = new JTextField();
-		txtSearch.setBounds(10, 31, 261, 31);
+		txtSearch.setBounds(34, 31, 261, 31);
 		searchPnl.add(txtSearch);
 		txtSearch.setText("Search");
 		txtSearch.setColumns(10);
 		
 		JButton btnSearch = new JButton("Search for items");
-		btnSearch.setBounds(274, 31, 31, 31);
+		btnSearch.setBounds(301, 31, 31, 31);
 		btnSearch.addActionListener(btnListener);
 		searchPnl.add(btnSearch);
 		
-		JButton btnCheckout = new JButton("Checkout");
+		
 		btnCheckout.setBounds(615, 537, 169, 23);
 		btnCheckout.addActionListener(btnListener);
 		
