@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+
 import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import java.awt.FlowLayout;
@@ -33,6 +35,8 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 
 import AdvGUIdemo.common.FoodItem;
+import java.awt.Font;
+import java.awt.SystemColor;
 
 public class MainFrame extends JFrame 
 {
@@ -40,7 +44,8 @@ public class MainFrame extends JFrame
 	private JPanel cartPane;
 	private JTextField txtSearch;
 
-	static Vector<FoodItem> foodList = new Vector<FoodItem>();
+	static Vector<FoodItem> cartList = new Vector<FoodItem>();
+	static DefaultListModel foodList = new DefaultListModel();
 	static Vector<String> foodItemNames = new Vector<String>();
 	static Vector<String> foodItemTypes = new Vector<String>();
 	static Vector<Double> foodItemCosts = new Vector<Double>();
@@ -102,20 +107,37 @@ public class MainFrame extends JFrame
 		JLabel inCartLbl = new JLabel("Items in cart");
 		cartScrollPane.setColumnHeaderView(inCartLbl);
 		
+		DefaultListModel resultItemList = new DefaultListModel();
+		
 		JPanel searchPnl = new JPanel();
 		searchPnl.setBounds(10, 11, 595, 549);
 		cartPane.add(searchPnl);
 		searchPnl.setLayout(null);
 		
-
+		JPanel resultsPanel = new JPanel();//declaring before the btnListener
+		
 		ActionListener btnListener = new ActionListener()//Action Listener for the buttons
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
 				cartPane.remove(searchPnl);	 
 				cartPane.repaint();
-				
-				
+				if(e.getActionCommand().equals("All"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemNames.size(); i++)
+					{
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				else if(e.getActionCommand().equals("Add"))
+				{
+					
+				}
+			    cartList.addElement(new FoodItem("Orange", "Produce", 3.94));
+			    foodList.addElement(cartList.get(0).getName());
+			    
 		   }
 		};
 		
@@ -163,6 +185,32 @@ public class MainFrame extends JFrame
 		JButton btnCheckout = new JButton("Checkout");
 		btnCheckout.setBounds(615, 537, 169, 23);
 		btnCheckout.addActionListener(btnListener);
+		
+		
+		resultsPanel.setBounds(10, 11, 595, 549);
+		cartPane.add(resultsPanel);
+		resultsPanel.setLayout(null);
+		
+		JScrollPane resultsScrollPane = new JScrollPane();
+		resultsScrollPane.setBounds(10, 59, 575, 428);
+		resultsPanel.add(resultsScrollPane);
+		JList resultsJList = new JList(resultItemList);
+		resultsJList.setBackground(SystemColor.text);
+		resultsScrollPane.setViewportView(resultsJList);
+		
+		JLabel lblResultsFound = new JLabel("Results Found:");
+		lblResultsFound.setBackground(SystemColor.text);
+		lblResultsFound.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		resultsScrollPane.setColumnHeaderView(lblResultsFound);
+		
+		JButton btnResultsBack = new JButton("Back");
+		btnResultsBack.setBounds(98, 498, 192, 51);
+		resultsPanel.add(btnResultsBack);
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setBounds(325, 498, 192, 51);
+		btnAdd.addActionListener(btnListener);
+		resultsPanel.add(btnAdd);
 		cartPane.add(btnCheckout);
 		
 		JButton btnRemoveItem = new JButton("Remove Selected Item");
@@ -170,11 +218,6 @@ public class MainFrame extends JFrame
 		btnRemoveItem.addActionListener(btnListener);
 		cartPane.add(btnRemoveItem);
 		
-		
-	}
-	
-	public void createEvents()
-	{
 		
 	}
 }
