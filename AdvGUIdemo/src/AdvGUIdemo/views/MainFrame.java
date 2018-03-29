@@ -47,8 +47,6 @@ public class MainFrame extends JFrame
 			{
 				try 
 				{
-					File directory = new File("./");
-					System.out.println(directory.getAbsolutePath());
 					File foodFile = new File("src\\AdvGUIdemo\\resources\\foods.txt");
 					Scanner inFile = new Scanner(foodFile);
 					while(inFile.hasNextLine())
@@ -58,12 +56,7 @@ public class MainFrame extends JFrame
 						foodItemNames.addElement(temp[0]);
 						foodItemTypes.addElement(temp[1]);
 						foodItemCosts.addElement(Double.parseDouble(temp[2]));
-					}
-					for(String element : foodItemNames)
-					{
-						System.out.println(element);
-					}
-						
+					}	
 					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 				} 
