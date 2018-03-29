@@ -108,6 +108,7 @@ public class MainFrame extends JFrame
 		cartScrollPane.setColumnHeaderView(inCartLbl);
 		
 		DefaultListModel resultItemList = new DefaultListModel();
+		JList resultsJList = new JList(resultItemList);
 		
 		JPanel searchPnl = new JPanel();
 		searchPnl.setBounds(10, 11, 595, 549);
@@ -189,11 +190,20 @@ public class MainFrame extends JFrame
 				
 				else if(e.getActionCommand().equals("Add"))
 				{
-					
-				}
-			    cartList.addElement(new FoodItem("Orange", "Produce", 3.94));
-			    foodList.addElement(cartList.get(0).getName());
-			    
+					int foodItemIndex;//stores the index of the food element to be able to pull data from parallel vectors
+					String[] temp;//used to store segments from the selected value
+					String selectedValue = resultsJList.getSelectedValue().toString();
+					temp = selectedValue.split("     ");
+					for(int i = 0; i < foodItemNames.size(); i++)
+					{
+						if(foodItemNames.get(i).equals(temp[1]))
+						{
+					       foodItemIndex = i;
+					       cartList.addElement(new FoodItem(foodItemNames.get(i), foodItemTypes.get(i), foodItemCosts.get(i)));
+					       foodList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "  " + foodItemNames.get(i)));
+						}
+					}
+				}			    	    
 		   }
 		};
 		
@@ -250,7 +260,7 @@ public class MainFrame extends JFrame
 		JScrollPane resultsScrollPane = new JScrollPane();
 		resultsScrollPane.setBounds(10, 59, 575, 428);
 		resultsPanel.add(resultsScrollPane);
-		JList resultsJList = new JList(resultItemList);
+		
 		resultsJList.setBackground(SystemColor.text);
 		resultsScrollPane.setViewportView(resultsJList);
 		
