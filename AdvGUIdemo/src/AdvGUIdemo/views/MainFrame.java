@@ -120,7 +120,7 @@ public class MainFrame extends JFrame
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
-				cartPane.remove(searchPnl);	 
+			    cartPane.remove(searchPnl);	 
 				cartPane.repaint();
 				if(e.getActionCommand().equals("All"))
 				{
@@ -131,6 +131,62 @@ public class MainFrame extends JFrame
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
 					}
 				}
+				
+				else if(e.getActionCommand().equals("Produce"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemTypes.size(); i++)
+					{
+						if(foodItemTypes.get(i).equals("Produce"))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
+				else if(e.getActionCommand().equals("Meat"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemTypes.size(); i++)
+					{
+						if(foodItemTypes.get(i).equals("Meat"))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
+				else if(e.getActionCommand().equals("Dairy"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemTypes.size(); i++)
+					{
+						if(foodItemTypes.get(i).equals("Dairy"))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
+				else if(e.getActionCommand().equals("Frozen Goods"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemTypes.size(); i++)
+					{
+						if(foodItemTypes.get(i).equals("Frozen"))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
+				else if(e.getActionCommand().equals("Baked Goods"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					for(int i = 0; i < foodItemTypes.size(); i++)
+					{
+						if(foodItemTypes.get(i).equals("Baked"))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
+				}
+				
 				else if(e.getActionCommand().equals("Add"))
 				{
 					
