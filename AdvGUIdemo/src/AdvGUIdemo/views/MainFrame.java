@@ -211,11 +211,24 @@ public class MainFrame extends JFrame
 					}
 				}
 				
-				else if(e.getActionCommand().equals("Back"))
+				else if(e.getActionCommand().equals("Back"))//sends user back to the search screen
 				{
 					cartPane.remove(resultsPanel);
+					resultItemList.clear();//Removes all items from the results list to allow for repeatable searches
 					cartPane.add(searchPnl);
 					cartPane.repaint();					
+				}
+				
+				else if(e.getActionCommand().equals("Search for items"))
+				{
+					cartPane.add(resultsPanel);
+					cartPane.repaint();
+					System.out.println(txtSearch.getText());
+					for(int i = 0; i < foodItemNames.size(); i++)//Finds all items starting with what the user entered in the search box
+					{
+						if(foodItemNames.get(i).toLowerCase().startsWith(txtSearch.getText().toLowerCase()))
+						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
+					}
 				}
 		   }
 		};
