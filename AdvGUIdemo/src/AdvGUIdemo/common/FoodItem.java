@@ -2,9 +2,9 @@ package AdvGUIdemo.common;
 
 public class FoodItem 
 {
-   private String name;
-   private double cost;
-   String foodType;
+   private String name;//Stores the name of the food item
+   private double cost;//Stores the cost of the food item
+   String foodType;// Stores the food type ex. Produce
    
    public FoodItem(String itemName,String typeOfFood, double itemCost)
    {
