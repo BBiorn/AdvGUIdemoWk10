@@ -44,11 +44,15 @@ public class MainFrame extends JFrame
 	private JPanel cartPane;
 	private JTextField txtSearch;
 
-	static Vector<FoodItem> cartList = new Vector<FoodItem>();
-	static DefaultListModel foodList = new DefaultListModel();
+	static Vector<FoodItem> cartList = new Vector<FoodItem>();//Stores the FoodItem 's in the cart
+	static DefaultListModel foodList = new DefaultListModel();//Stores the names and cost of items in the cart
+	
+	//Parallel Vectors used to store all available food item names, types, and costs.
 	static Vector<String> foodItemNames = new Vector<String>();
 	static Vector<String> foodItemTypes = new Vector<String>();
 	static Vector<Double> foodItemCosts = new Vector<Double>();
+	
+	
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -59,10 +63,10 @@ public class MainFrame extends JFrame
 				{
 					File foodFile = new File("src\\AdvGUIdemo\\resources\\foods.txt");
 					Scanner inFile = new Scanner(foodFile);
-					while(inFile.hasNextLine())
+					while(inFile.hasNextLine())//reads available food items in from foods.txt
 					{
 						String[] temp = new String[3];
-						temp = inFile.nextLine().split(" ");
+						temp = inFile.nextLine().split(" ");//splits each line into respective elements [Name][Type][Cost]
 						foodItemNames.addElement(temp[0]);
 						foodItemTypes.addElement(temp[1]);
 						foodItemCosts.addElement(Double.parseDouble(temp[2]));
@@ -121,13 +125,14 @@ public class MainFrame extends JFrame
 		{
 		   public void actionPerformed(ActionEvent e)
 		   {
+			    System.out.println(e.getActionCommand());
 			    cartPane.remove(searchPnl);	 
 				cartPane.repaint();
 				if(e.getActionCommand().equals("All"))
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemNames.size(); i++)
+					for(int i = 0; i < foodItemNames.size(); i++)//Finds all available food items
 					{
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
 					}
@@ -137,7 +142,7 @@ public class MainFrame extends JFrame
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemTypes.size(); i++)
+					for(int i = 0; i < foodItemTypes.size(); i++)//Finds all Produce available
 					{
 						if(foodItemTypes.get(i).equals("Produce"))
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
@@ -148,7 +153,7 @@ public class MainFrame extends JFrame
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemTypes.size(); i++)
+					for(int i = 0; i < foodItemTypes.size(); i++)//Finds all Meat Items available
 					{
 						if(foodItemTypes.get(i).equals("Meat"))
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
@@ -159,7 +164,7 @@ public class MainFrame extends JFrame
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemTypes.size(); i++)
+					for(int i = 0; i < foodItemTypes.size(); i++)//Finds all Dairy Items available
 					{
 						if(foodItemTypes.get(i).equals("Dairy"))
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
@@ -170,7 +175,7 @@ public class MainFrame extends JFrame
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemTypes.size(); i++)
+					for(int i = 0; i < foodItemTypes.size(); i++)//Finds all Frozen Goods available
 					{
 						if(foodItemTypes.get(i).equals("Frozen"))
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
@@ -181,7 +186,7 @@ public class MainFrame extends JFrame
 				{
 					cartPane.add(resultsPanel);
 					cartPane.repaint();
-					for(int i = 0; i < foodItemTypes.size(); i++)
+					for(int i = 0; i < foodItemTypes.size(); i++)//Finds all Baked Goods available 
 					{
 						if(foodItemTypes.get(i).equals("Baked"))
 						resultItemList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "     " + foodItemNames.get(i)));
@@ -201,9 +206,17 @@ public class MainFrame extends JFrame
 					       foodItemIndex = i;
 					       cartList.addElement(new FoodItem(foodItemNames.get(i), foodItemTypes.get(i), foodItemCosts.get(i)));
 					       foodList.addElement(String.format("%s%.2f%s", "$", foodItemCosts.get(i), "  " + foodItemNames.get(i)));
+					       i = foodItemNames.size();
 						}
 					}
-				}			    	    
+				}
+				
+				else if(e.getActionCommand().equals("Back"))
+				{
+					cartPane.remove(resultsPanel);
+					cartPane.add(searchPnl);
+					cartPane.repaint();					
+				}
 		   }
 		};
 		
@@ -271,6 +284,7 @@ public class MainFrame extends JFrame
 		
 		JButton btnResultsBack = new JButton("Back");
 		btnResultsBack.setBounds(98, 498, 192, 51);
+		btnResultsBack.addActionListener(btnListener);
 		resultsPanel.add(btnResultsBack);
 		
 		JButton btnAdd = new JButton("Add");
