@@ -1,0 +1,10 @@
+Apple Produce 1.0
+Pear Produce 1.65
+Chicken Meat 3.99
+Steak Meat 5.25
+Milk Dairy 2.99
+Cheese Dairy 2.68
+Pizza Frozen 4.25
+Fries Frozen 5.19
+Cake Baked 8.99
+Cookies Baked 6.39

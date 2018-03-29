@@ -19,6 +19,8 @@ import javax.swing.JSeparator;
 import java.awt.ScrollPane;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Scanner;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -33,7 +35,10 @@ public class MainFrame extends JFrame
 	private JPanel cartPane;
 	private JTextField txtSearch;
 
-	Vector<FoodItem> foodList = new Vector<FoodItem>();
+	static Vector<FoodItem> foodList = new Vector<FoodItem>();
+	static Vector<String> foodItemNames = new Vector<String>();
+	static Vector<String> foodItemTypes = new Vector<String>();
+	static Vector<Double> foodItemCosts = new Vector<Double>();
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -42,6 +47,23 @@ public class MainFrame extends JFrame
 			{
 				try 
 				{
+					File directory = new File("./");
+					System.out.println(directory.getAbsolutePath());
+					File foodFile = new File("src\\AdvGUIdemo\\resources\\foods.txt");
+					Scanner inFile = new Scanner(foodFile);
+					while(inFile.hasNextLine())
+					{
+						String[] temp = new String[3];
+						temp = inFile.nextLine().split(" ");
+						foodItemNames.addElement(temp[0]);
+						foodItemTypes.addElement(temp[1]);
+						foodItemCosts.addElement(Double.parseDouble(temp[2]));
+					}
+					for(String element : foodItemNames)
+					{
+						System.out.println(element);
+					}
+						
 					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 				} 
