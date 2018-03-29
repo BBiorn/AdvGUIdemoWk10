@@ -1,3 +1,8 @@
+/*
+ * This program acts a simulated grocery store item purchasing system
+ *    The user select items to add to the cart and then can Checkout or
+ *    remove items
+ */
 package AdvGUIdemo.views;
 
 import java.awt.BorderLayout;
